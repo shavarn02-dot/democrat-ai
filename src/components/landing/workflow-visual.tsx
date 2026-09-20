@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, Image as ImageIcon, MessageSquare, Search, Sparkles } from "lucide-react";
+import { Check, Image as ImageIcon, MessageSquare, Search, Sparkles, WandSparkles } from "lucide-react";
 
 const steps = [
   { label: "Source", value: "URL / post / article" },
@@ -20,19 +20,20 @@ export function WorkflowVisual() {
 
   return (
     <div className="workflow-stage" aria-label="Animated Democrat.ai content workflow">
+      <div className="workflow-media"><img src="/media/analytics-screen.jpg" alt="Analytics dashboard preview" /></div>
       <div className="workflow-grid" />
       <div className="workflow-orbit orbit-one" />
       <div className="workflow-orbit orbit-two" />
       <div className="workflow-scan" />
 
       <div className="workflow-source">
-        <div className="workflow-mini-label"><span className="status-dot" /> SOURCE</div>
+        <div className="workflow-mini-label"><span className="status-dot" /> SOURCE <span className="media-badge"><WandSparkles className="h-3 w-3" /> visual attached</span></div>
         <div className="source-card">
-          <div className="source-thumb"><span className="source-play">▶</span></div>
+          <div className="source-thumb"><img src="/media/studio-workspace.jpg" alt="Creator workspace" /><span className="source-play">▶</span></div>
           <div className="source-copy">
             <span>New AI model changes</span>
             <strong>how teams ship software</strong>
-            <small>instagram.com/reel/••••</small>
+            <small>youtube.com/watch/••••</small>
           </div>
         </div>
       </div>
@@ -40,11 +41,7 @@ export function WorkflowVisual() {
       <div className="workflow-core">
         <div className="core-ring ring-a" />
         <div className="core-ring ring-b" />
-        <div className="core-node">
-          <Sparkles className="h-5 w-5" />
-          <span>Democrat</span>
-          <small>thinking</small>
-        </div>
+        <div className="core-node"><Sparkles className="h-5 w-5" /><span>Democrat</span><small>thinking</small></div>
         <div className="core-signal signal-one"><Search className="h-3.5 w-3.5" /> context</div>
         <div className="core-signal signal-two"><ImageIcon className="h-3.5 w-3.5" /> visual</div>
       </div>
@@ -59,15 +56,7 @@ export function WorkflowVisual() {
         </div>
       </div>
 
-      <div className="workflow-progress">
-        {steps.map((step, index) => (
-          <div key={step.label} className={`workflow-step ${index === active ? "is-active" : ""}`}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <div><strong>{step.label}</strong><small>{step.value}</small></div>
-          </div>
-        ))}
-      </div>
-
+      <div className="workflow-progress">{steps.map((step, index) => <div key={step.label} className={`workflow-step ${index === active ? "is-active" : ""}`}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{step.label}</strong><small>{step.value}</small></div></div>)}</div>
       <div className="workflow-float"><MessageSquare className="h-4 w-4" /><span>Angle found</span><b>↗</b></div>
     </div>
   );

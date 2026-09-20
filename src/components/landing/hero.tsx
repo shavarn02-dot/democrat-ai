@@ -7,6 +7,10 @@ import { WorkflowVisual } from "@/components/landing/workflow-visual";
 export function Hero() {
   return (
     <section className="hero-section">
+      <video className="hero-video" autoPlay muted loop playsInline poster="/media/studio-workspace.jpg" aria-hidden="true">
+        <source src="/media/editorial-pulse.mp4" type="video/mp4" />
+      </video>
+      <div className="hero-video-wash" />
       <div className="hero-grid" />
       <div className="hero-noise" />
       <div className="hero-glow hero-glow-a" />
