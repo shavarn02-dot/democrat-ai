@@ -64,7 +64,7 @@ const angles: {
 
 export function AngleSelector({ selected, onSelect }: AngleSelectorProps) {
   return (
-    <Card>
+    <Card className="border-foreground/10 bg-card/85 shadow-lg shadow-foreground/5 backdrop-blur-xl">
       <CardHeader>
         <CardTitle>Choose Content Angle</CardTitle>
         <CardDescription>
@@ -78,7 +78,7 @@ export function AngleSelector({ selected, onSelect }: AngleSelectorProps) {
               key={angle.value}
               onClick={() => onSelect(angle.value)}
               className={cn(
-                "flex items-start gap-3 rounded-lg border p-4 text-left transition-all hover:bg-muted/50",
+                "flex items-start gap-3 rounded-2xl border border-foreground/10 bg-background/50 p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-xl hover:bg-muted/50",
                 selected === angle.value &&
                   "border-primary bg-primary/5 ring-1 ring-primary"
               )}
