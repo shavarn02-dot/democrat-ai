@@ -15,9 +15,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Democrat.ai - AI-Powered Content Repurposing",
+  title: "Democrat.ai — AI Content Distribution System",
   description:
-    "Transform one piece of content into platform-ready posts for LinkedIn, Twitter, Reddit, Facebook, and blogs. Free AI-powered content repurposing for creators and founders.",
+    "Turn one source into platform-native content for LinkedIn, X, Reddit, Facebook, and editorial channels—with human review built in.",
   keywords: [
     "content repurposing",
     "AI content",
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     "content creation",
   ],
   openGraph: {
-    title: "Democrat.ai - AI-Powered Content Repurposing",
+    title: "Democrat.ai — AI Content Distribution System",
     description:
-      "Paste a URL. Choose your angle. Get platform-ready content in seconds.",
+      "One source. Platform-native content. Human-approved distribution.",
     type: "website",
   },
 };

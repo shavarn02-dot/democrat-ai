@@ -50,7 +50,7 @@ export async function PATCH(request: Request) {
     const { id, status, generated_content, generated_title } =
       await request.json();
 
-    if (!id || !status) {
+    if (!id || (!status && !generated_content && !generated_title)) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -58,10 +58,10 @@ export async function PATCH(request: Request) {
     }
 
     const updateData: Record<string, unknown> = {
-      status,
       updated_at: new Date().toISOString(),
     };
 
+    if (status) updateData.status = status;
     if (generated_content) updateData.generated_content = generated_content;
     if (generated_title) updateData.generated_title = generated_title;
 
