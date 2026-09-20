@@ -3,12 +3,9 @@ import { createClient } from "@/lib/supabase/server";
 import Groq from "groq-sdk";
 import { buildExtractionPrompt } from "@/lib/prompts";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
-
 export async function POST(request: Request) {
   try {
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
     const supabase = await createClient();
     const {
       data: { user },

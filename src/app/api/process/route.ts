@@ -4,12 +4,9 @@ import Groq from "groq-sdk";
 import { buildRepurposePrompt } from "@/lib/prompts";
 import { Platform, ContentAngle } from "@/lib/types";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
-
 export async function POST(request: Request) {
   try {
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
     const supabase = await createClient();
     const {
       data: { user },
