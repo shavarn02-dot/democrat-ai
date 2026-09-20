@@ -9,7 +9,7 @@ const capabilities = [
   ["02", PenLine, "Find your angle", "Turn one source into a founder take, technical breakdown, beginner explanation, or business insight."],
   ["03", Layers3, "Build the package", "Generate platform-native copy, hooks, keywords, hashtags, and a visual direction together."],
   ["04", Send, "Distribute with intent", "Review once, then publish to the channels that matter without rewriting everything by hand."],
-];
+] as const;
 
 export function Features() {
   return (
