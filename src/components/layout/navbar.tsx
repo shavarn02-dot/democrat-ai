@@ -1,41 +1,36 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2">
-          <Sparkles className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold">Democrat.ai</span>
+    <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-xl">
+      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 lg:px-8">
+        <Link href="/" className="group flex items-center gap-3">
+          <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-foreground text-background shadow-lg transition-transform duration-300 group-hover:rotate-3">
+            <Sparkles className="h-4 w-4" />
+            <span className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,hsl(var(--accent)/.8),transparent_38%)]" />
+          </span>
+          <span className="font-semibold tracking-[-0.03em]">Democrat<span className="text-accent">.ai</span></span>
         </Link>
 
-        <nav className="hidden items-center gap-6 sm:flex">
-          <Link
-            href="#features"
-            className="text-sm text-muted-foreground hover:text-foreground"
-          >
-            Features
-          </Link>
-          <Link
-            href="#pricing"
-            className="text-sm text-muted-foreground hover:text-foreground"
-          >
-            Pricing
-          </Link>
+        <nav className="hidden items-center gap-8 md:flex">
+          <Link href="#features" className="text-sm text-muted-foreground transition-colors hover:text-foreground">Product</Link>
+          <Link href="#workflow" className="text-sm text-muted-foreground transition-colors hover:text-foreground">Workflow</Link>
+          <Link href="#features" className="text-sm text-muted-foreground transition-colors hover:text-foreground">Capabilities</Link>
         </nav>
 
-        <div className="flex items-center gap-3">
-          <Link href="/auth/login">
-            <Button variant="ghost" size="sm">
-              Log In
-            </Button>
+        <div className="flex items-center gap-2">
+          <Link href="/auth/login" className="hidden sm:block">
+            <Button variant="ghost" size="sm">Log in</Button>
           </Link>
           <Link href="/auth/login">
-            <Button size="sm">Get Started Free</Button>
+            <Button size="sm" className="group gap-1.5 rounded-full px-4">
+              Start creating
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Button>
           </Link>
         </div>
       </div>
