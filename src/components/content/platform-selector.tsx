@@ -50,7 +50,7 @@ const platforms: {
 
 export function PlatformSelector({ selected, onSelect }: PlatformSelectorProps) {
   return (
-    <Card>
+    <Card className="border-foreground/10 bg-card/85 shadow-lg shadow-foreground/5 backdrop-blur-xl">
       <CardHeader>
         <CardTitle>Select Target Platform</CardTitle>
         <CardDescription>
