@@ -19,7 +19,7 @@ export function Features() {
           <div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr]">
             <div className="lg:sticky lg:top-28 lg:h-fit">
               <span className="text-xs font-semibold uppercase tracking-[.22em] text-accent">The operating loop</span>
-              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Content moves.<br />Your team shouldn't.</h2>
+              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Content moves.<br />Your team shouldn&apos;t.</h2>
               <p className="mt-5 max-w-md text-sm leading-6 text-muted-foreground">One source becomes a coordinated stream of channel-specific assets. The interface keeps every stage visible without turning the workflow into a boring stepper.</p>
               <div className="mt-8 inline-flex items-center gap-2 text-sm font-medium">Explore the system <ArrowDownRight className="h-4 w-4 text-accent" /></div>
             </div>
