@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, Image as ImageIcon, Instagram, Linkedin, MessageSquare, Search, Sparkles, Twitter } from "lucide-react";
+import { Check, Image as ImageIcon, MessageSquare, Search, Sparkles } from "lucide-react";
 
 const steps = [
   { label: "Source", value: "URL / post / article" },
@@ -53,9 +53,9 @@ export function WorkflowVisual() {
         <div className="output-topline"><span>READY TO PUBLISH</span><span className="output-check"><Check className="h-3 w-3" /></span></div>
         <div className="output-post">
           <div className="post-header"><div className="avatar-mark">D</div><div><strong>Democrat.ai</strong><small>AI-assisted draft</small></div></div>
-          <p>The interesting part isn't the new model. It's what changes when the cost of iteration collapses.</p>
+          <p>The interesting part isn&apos;t the new model. It&apos;s what changes when the cost of iteration collapses.</p>
           <div className="post-tags"><span>#AI</span><span>#Product</span><span>#BuildInPublic</span></div>
-          <div className="post-actions"><span><Linkedin className="h-3.5 w-3.5" /> LinkedIn</span><span><Twitter className="h-3.5 w-3.5" /> X</span><span><Instagram className="h-3.5 w-3.5" /> Instagram</span></div>
+          <div className="post-actions"><span><b className="platform-mark">in</b> LinkedIn</span><span><b className="platform-mark">𝕏</b> X</span><span><b className="platform-mark">◎</b> Instagram</span></div>
         </div>
       </div>
 
