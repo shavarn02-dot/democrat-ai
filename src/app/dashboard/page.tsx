@@ -1,12 +1,318 @@
 "use client";
-import {useEffect,useMemo,useState} from "react";
-import {AngleSelector} from "@/components/content/angle-selector";import {DraftPreview} from "@/components/content/draft-preview";import {PlatformSelector} from "@/components/content/platform-selector";import {UrlInput} from "@/components/content/url-input";import {Tabs,TabsContent,TabsList,TabsTrigger} from "@/components/ui/tabs";import {ContentAngle,Draft,Platform} from "@/lib/types";
-import {Activity,Archive,ArrowRight,Check,Clock3,FileText,LayoutDashboard,Loader2,Menu,Plus,Settings,Sparkles,Workflow} from "lucide-react";
-const stages=["Source captured","Context understood","Angle selected","Platform selected","Draft generated","Ready for review"];
-export default function DashboardPage(){const[extracted,setExtracted]=useState<{url:string;title:string;content:string;summary:string}|null>(null);const[angle,setAngle]=useState<ContentAngle|null>(null);const[platform,setPlatform]=useState<Platform|null>(null);const[generating,setGenerating]=useState(false);const[processingStage,setProcessingStage]=useState(0);const[drafts,setDrafts]=useState<Draft[]>([]);const[loading,setLoading]=useState(true);const[error,setError]=useState<string|null>(null);const[tab,setTab]=useState("create");
-useEffect(()=>{fetchDrafts()},[]);useEffect(()=>{if(!generating)return;const id=window.setInterval(()=>setProcessingStage(v=>Math.min(v+1,4)),1250);return()=>clearInterval(id)},[generating]);
-const fetchDrafts=async()=>{try{const r=await fetch("/api/drafts");const data=await r.json();if(!r.ok)throw new Error(data.error||"Could not load drafts");setDrafts(data.drafts||[])}catch(e){setError(e instanceof Error?e.message:"Could not load drafts")}finally{setLoading(false)}};
-const generate=async()=>{if(!extracted||!angle||!platform)return;setGenerating(true);setProcessingStage(1);setError(null);try{const r=await fetch("/api/process",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url:extracted.url,contentAngle:angle,targetPlatform:platform,sourceContent:extracted.content,sourceTitle:extracted.title})});const data=await r.json();if(!r.ok)throw new Error(data.error||"Generation failed");setProcessingStage(5);setDrafts(v=>[data.draft,...v]);setTimeout(()=>{setExtracted(null);setAngle(null);setPlatform(null);setTab("drafts")},450)}catch(e){setError(e instanceof Error?e.message:"Generation failed")}finally{setGenerating(false)}};
-const update=async(id:string,updates:Partial<Draft>)=>{setError(null);const previous=drafts;setDrafts(v=>v.map(d=>d.id===id?{...d,...updates}:d));try{const r=await fetch("/api/drafts",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({id,...updates})});const data=await r.json();if(!r.ok)throw new Error(data.error||"Update failed");setDrafts(v=>v.map(d=>d.id===id?data.draft:d))}catch(e){setDrafts(previous);setError(e instanceof Error?e.message:"Update failed");throw e}};
-const progress=useMemo(()=>{if(generating)return processingStage;if(extracted&&angle&&platform)return 3;if(extracted&&angle)return 2;if(extracted)return 1;return 0},[generating,processingStage,extracted,angle,platform]);const approved=drafts.filter(d=>d.status==="approved").length;const pending=drafts.filter(d=>d.status==="draft").length;
-return <div className="app-shell"><aside className="app-sidebar"><div className="sidebar-brand"><span className="brand-mark"><Sparkles className="relative z-10 h-4 w-4"/></span><strong className="text-sm">Democrat<span className="text-[#ff5b3f]">.ai</span></strong></div><nav className="sidebar-nav" aria-label="Workspace"><button className="active"><LayoutDashboard className="h-4 w-4"/>Workspace</button><button onClick={()=>setTab("create")}><Workflow className="h-4 w-4"/>Create content</button><button onClick={()=>setTab("drafts")}><FileText className="h-4 w-4"/>Draft library</button><button disabled title="Analytics is not available yet"><Activity className="h-4 w-4"/>Analytics</button><button disabled title="Settings are not available yet"><Settings className="h-4 w-4"/>Settings</button></nav><div className="sidebar-foot"><div className="credit-card"><small>WORKSPACE USAGE</small><strong>{drafts.length} drafts created</strong><div className="credit-meter"><i/></div></div></div></aside><main className="app-main"><div className="mobile-appbar"><div className="flex items-center gap-2"><span className="brand-mark !h-8 !w-8"><Sparkles className="relative z-10 h-3.5 w-3.5"/></span><strong className="text-sm">Democrat.ai</strong></div><button aria-label="Open navigation"><Menu className="h-5 w-5"/></button></div><header className="app-topbar"><div className="app-context"><b>Personal workspace</b><span>/</span><span>Content operations</span></div><div className="flex items-center gap-3 text-[10px] text-[#77736b]"><Clock3 className="h-3.5 w-3.5"/>AI systems operational</div></header><div className="app-content"><div className="app-heading"><div><span className="section-index">CONTENT COMMAND CENTER</span><h1 className="mt-3">Good evening.</h1><p>Turn a source into a platform-ready draft, then decide what ships.</p></div><div className="metrics"><div className="metric"><small>Total drafts</small><strong>{drafts.length}</strong></div><div className="metric"><small>Needs review</small><strong>{pending}</strong></div><div className="metric"><small>Approved</small><strong>{approved}</strong></div></div></div>{error&&<div role="alert" className="mt-6 flex items-center justify-between rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-xs text-red-800"><span>{error}</span><button onClick={()=>setError(null)} className="font-semibold">Dismiss</button></div>}<Tabs value={tab} onValueChange={setTab} className="mt-1"><TabsList className="workspace-tabs"><TabsTrigger value="create"><Plus className="mr-2 h-3.5 w-3.5"/>Create</TabsTrigger><TabsTrigger value="drafts"><Archive className="mr-2 h-3.5 w-3.5"/>Drafts · {drafts.length}</TabsTrigger></TabsList><TabsContent value="create"><div className="create-layout"><div className="workflow-column"><UrlInput onContentExtracted={setExtracted}/>{extracted&&<section className="workflow-panel"><div className="panel-head"><span className="panel-index"><Check className="h-3 w-3"/></span><h2>Source intelligence</h2><p>Grounding complete</p></div><div className="source-summary"><div><h3>{extracted.title}</h3><p>{extracted.summary||`${extracted.content.slice(0,260)}…`}</p></div><span className="source-ready">Ready</span></div></section>}<AngleSelector selected={angle} onSelect={setAngle}/><PlatformSelector selected={platform} onSelect={setPlatform}/></div><aside className="rail-panel"><span className="rail-kicker">LIVE WORKFLOW</span><h3>{generating?"Building your draft":"Distribution pipeline"}</h3><div className="rail-steps">{stages.map((stage,i)=><div key={stage} className={`rail-step ${i<progress?"complete":""} ${i===progress?"active":""}`}><i/><span>{stage}</span></div>)}</div><button onClick={generate} disabled={!extracted||!angle||!platform||generating} className="generate-button">{generating?<><Loader2 className="h-4 w-4 animate-spin"/>{stages[processingStage]}</>:<>Generate draft<ArrowRight className="h-4 w-4"/></>}</button><p className="processing-note">Generation uses the selected source, angle, and platform. Nothing is published automatically.</p></aside></div></TabsContent><TabsContent value="drafts"><div className="mt-5">{loading?<div className="empty-state"><div><Loader2 className="mx-auto h-7 w-7 animate-spin"/><p className="mt-4 text-xs text-[#77736b]">Loading your content library…</p></div></div>:drafts.length===0?<div className="empty-state"><div><span className="empty-icon mx-auto"><FileText className="h-5 w-5"/></span><h2 className="mt-5 text-lg font-semibold">Your first draft starts with a source.</h2><p className="mt-2 text-xs text-[#77736b]">Paste a URL and Democrat.ai will build the first platform-ready version.</p><button onClick={()=>setTab("create")} className="signal-button mt-5">Create first draft<ArrowRight className="h-4 w-4"/></button></div></div>:<div className="draft-grid">{drafts.map(d=><DraftPreview key={d.id} draft={d} onUpdate={update}/>)}</div>}</div></TabsContent></Tabs></div></main></div>}
+
+import { useEffect, useState } from "react";
+import { AngleSelector } from "@/components/content/angle-selector";
+import { DraftPreview } from "@/components/content/draft-preview";
+import { PlatformSelector } from "@/components/content/platform-selector";
+import { UrlInput } from "@/components/content/url-input";
+import { VisualStudio } from "@/components/content/visual-studio";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ContentAngle, Draft, Platform } from "@/lib/types";
+import {
+  Activity,
+  Archive,
+  ArrowRight,
+  CheckCircle2,
+  Clock3,
+  FileText,
+  Layers,
+  LayoutDashboard,
+  Loader2,
+  Plus,
+  RefreshCw,
+  Sparkles,
+  Workflow,
+  Radio,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const stages = [
+  "Source captured",
+  "Context understood",
+  "Angle selected",
+  "Platform selected",
+  "Draft generated",
+  "Ready for review",
+];
+
+export default function DashboardPage() {
+  const [extracted, setExtracted] = useState<{
+    url: string;
+    title: string;
+    content: string;
+    summary: string;
+  } | null>(null);
+  const [angle, setAngle] = useState<ContentAngle | null>("founder-perspective");
+  const [platform, setPlatform] = useState<Platform | null>("linkedin");
+  const [generating, setGenerating] = useState(false);
+  const [processingStage, setProcessingStage] = useState(0);
+  const [drafts, setDrafts] = useState<Draft[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [tab, setTab] = useState("pipeline");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+
+  useEffect(() => {
+    fetchDrafts();
+  }, []);
+
+  const fetchDrafts = async () => {
+    try {
+      const r = await fetch("/api/drafts");
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || "Could not load drafts");
+      setDrafts(data.drafts || []);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not load drafts");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateDraft = async (id: string, updates: Partial<Draft>) => {
+    try {
+      const r = await fetch("/api/drafts", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, ...updates }),
+      });
+      if (!r.ok) {
+        const data = await r.json();
+        throw new Error(data.error || "Update failed");
+      }
+      setDrafts((prev) =>
+        prev.map((d) => (d.id === id ? { ...d, ...updates } : d))
+      );
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to update draft");
+    }
+  };
+
+  const handleGenerate = async () => {
+    if (!extracted || !angle || !platform) return;
+    setGenerating(true);
+    setProcessingStage(1);
+    setError(null);
+
+    try {
+      const r = await fetch("/api/process", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: extracted.url,
+          contentAngle: angle,
+          targetPlatform: platform,
+        }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || "Generation failed");
+      if (data.draft) {
+        setDrafts((prev) => [data.draft, ...prev]);
+        setTab("drafts");
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Generation failed");
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const filteredDrafts = drafts.filter((d) => {
+    if (statusFilter === "all") return true;
+    return d.status === statusFilter;
+  });
+
+  return (
+    <div className="min-h-screen bg-[#f4f1ea] text-[#11110f] pb-24">
+      {/* Top Workspace Header */}
+      <header className="border-b border-black/10 bg-[#fbfaf6] px-6 py-4 sticky top-0 z-40 shadow-xs">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#11110f] text-white shadow-sm">
+              <Sparkles className="h-4 w-4 text-[#ff5b3f]" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-base font-serif font-bold text-[#11110f]">Democrat Workspace</h1>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#ff5b3f]/10 text-[#ff5b3f] font-semibold">
+                  PRO
+                </span>
+              </div>
+              <p className="text-[11px] text-[#8b867d]">Connected to Supabase · Groq Llama 3.3 Active</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 text-xs font-mono text-[#5a574f] bg-[#f5f2ea] px-3 py-1.5 rounded-lg border border-black/5">
+              <Radio className="h-3.5 w-3.5 text-emerald-600 animate-pulse" />
+              <span>EDGE RUNTIME ACTIVE</span>
+            </div>
+            <button
+              onClick={fetchDrafts}
+              className="p-2 rounded-lg border border-black/10 bg-white hover:bg-black/5 text-[#11110f] transition"
+              title="Refresh drafts"
+            >
+              <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Workspace Stage */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-8">
+        {/* Metric Badges */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="rounded-xl border border-black/10 bg-[#fbfaf6] p-4 shadow-xs">
+            <span className="text-[10px] font-mono text-[#8b867d] uppercase tracking-wider block">Total Drafts</span>
+            <span className="text-2xl font-serif font-bold text-[#11110f] mt-1 block">{drafts.length}</span>
+          </div>
+          <div className="rounded-xl border border-black/10 bg-[#fbfaf6] p-4 shadow-xs">
+            <span className="text-[10px] font-mono text-emerald-700 uppercase tracking-wider block">Approved</span>
+            <span className="text-2xl font-serif font-bold text-emerald-800 mt-1 block">
+              {drafts.filter((d) => d.status === "approved").length}
+            </span>
+          </div>
+          <div className="rounded-xl border border-black/10 bg-[#fbfaf6] p-4 shadow-xs">
+            <span className="text-[10px] font-mono text-[#ff5b3f] uppercase tracking-wider block">In Pipeline</span>
+            <span className="text-2xl font-serif font-bold text-[#ff5b3f] mt-1 block">
+              {drafts.filter((d) => d.status === "draft").length}
+            </span>
+          </div>
+          <div className="rounded-xl border border-black/10 bg-[#fbfaf6] p-4 shadow-xs">
+            <span className="text-[10px] font-mono text-[#5a574f] uppercase tracking-wider block">Throughput</span>
+            <span className="text-2xl font-serif font-bold text-[#11110f] mt-1 block">&lt; 1.2s</span>
+          </div>
+        </div>
+
+        {error && (
+          <div className="mb-6 p-4 rounded-xl border border-rose-200 bg-rose-50 text-rose-800 text-xs flex items-center justify-between">
+            <span>{error}</span>
+            <button onClick={() => setError(null)} className="font-bold">✕</button>
+          </div>
+        )}
+
+        {/* Tab Controls */}
+        <Tabs value={tab} onValueChange={setTab} className="space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-black/10 pb-3">
+            <TabsList className="bg-[#f5f2ea] p-1 rounded-xl border border-black/10">
+              <TabsTrigger value="pipeline" className="gap-1.5 text-xs font-medium">
+                <Workflow className="h-3.5 w-3.5" /> Pipeline Builder
+              </TabsTrigger>
+              <TabsTrigger value="studio" className="gap-1.5 text-xs font-medium">
+                <Layers className="h-3.5 w-3.5 text-[#ff5b3f]" /> Visual Studio
+              </TabsTrigger>
+              <TabsTrigger value="drafts" className="gap-1.5 text-xs font-medium">
+                <FileText className="h-3.5 w-3.5" /> Drafts Archive ({drafts.length})
+              </TabsTrigger>
+            </TabsList>
+          </div>
+
+          {/* TAB 1: Core Pipeline Builder */}
+          <TabsContent value="pipeline" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Left Configuration Column */}
+              <div className="lg:col-span-6 space-y-6">
+                <UrlInput onContentExtracted={setExtracted} />
+                <AngleSelector selected={angle} onSelect={setAngle} />
+                <PlatformSelector selected={platform} onSelect={setPlatform} />
+
+                <div className="pt-2">
+                  <button
+                    onClick={handleGenerate}
+                    disabled={generating || !extracted || !angle || !platform}
+                    className="w-full h-13 rounded-xl bg-[#11110f] text-white font-medium text-sm flex items-center justify-center gap-2 hover:bg-black transition shadow-md active:scale-98 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {generating ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin text-[#ff5b3f]" />
+                        <span>Synthesizing channel draft with Groq...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Generate Multi-Channel Draft</span>
+                        <ArrowRight className="h-4 w-4 text-[#ff5b3f]" />
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Right Output & Summary Column */}
+              <div className="lg:col-span-6 space-y-6">
+                {extracted ? (
+                  <div className="rounded-2xl border border-black/10 bg-[#fbfaf6] p-6 shadow-sm">
+                    <div className="flex items-center justify-between text-[10px] font-mono text-[#8b867d] border-b border-black/5 pb-3 mb-3">
+                      <span>SOURCE EXTRACTED VIA JSDOM</span>
+                      <span className="text-emerald-700 font-semibold">100% PARSED</span>
+                    </div>
+                    <h3 className="text-lg font-serif font-bold text-[#11110f] mb-2">{extracted.title}</h3>
+                    <p className="text-xs text-[#5a574f] leading-relaxed mb-4">{extracted.summary}</p>
+                    <div className="p-3 rounded-lg bg-[#f5f2ea] text-[11px] font-mono text-[#8b867d] truncate">
+                      {extracted.url}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-dashed border-black/15 p-12 text-center text-[#8b867d] bg-[#fbfaf6]/50">
+                    <Workflow className="h-8 w-8 mx-auto mb-3 opacity-40" />
+                    <h4 className="text-sm font-medium text-[#11110f]">No source URL ingested yet</h4>
+                    <p className="text-xs mt-1">Paste any article, blog post, or thread link to begin the pipeline.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* TAB 2: Visual Studio */}
+          <TabsContent value="studio">
+            <VisualStudio
+              initialTitle={extracted?.title || "Taste as the Distribution Moat"}
+              initialSummary={extracted?.summary}
+              platform={platform || "linkedin"}
+            />
+          </TabsContent>
+
+          {/* TAB 3: Drafts Archive */}
+          <TabsContent value="drafts" className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-black/10 pb-4">
+              <div className="flex gap-2">
+                {["all", "draft", "approved", "rejected"].map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setStatusFilter(s)}
+                    className={cn(
+                      "px-3 py-1 rounded-lg text-xs font-mono uppercase transition",
+                      statusFilter === s
+                        ? "bg-[#11110f] text-white"
+                        : "bg-[#f5f2ea] text-[#5a574f] hover:text-[#11110f]"
+                    )}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {loading ? (
+              <div className="py-16 text-center text-xs text-[#8b867d]">
+                <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2 text-[#ff5b3f]" />
+                Loading drafts from Supabase...
+              </div>
+            ) : filteredDrafts.length === 0 ? (
+              <div className="py-16 text-center rounded-2xl border border-dashed border-black/15 bg-[#fbfaf6]">
+                <Archive className="h-8 w-8 mx-auto mb-2 opacity-30" />
+                <h4 className="text-sm font-medium text-[#11110f]">No drafts found</h4>
+                <p className="text-xs text-[#8b867d] mt-1">Generate your first draft in the Pipeline Builder tab.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {filteredDrafts.map((d) => (
+                  <DraftPreview key={d.id} draft={d} onUpdate={handleUpdateDraft} />
+                ))}
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
+      </main>
+    </div>
+  );
+}
