@@ -1,74 +1,70 @@
 "use client";
 
-import { ArrowDownRight, Bot, Layers3, PenLine, ScanText, Send, Wand2 } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Check, Globe2, Layers3, PenLine, Radar, ScanSearch, Send } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
 
 const capabilities = [
-  ["01", "Understand", "Extract the source, structure the ideas and identify the signal worth distributing.", ScanText],
-  ["02", "Generate", "Turn the same idea into distinct platform-native drafts and angles.", PenLine],
-  ["03", "Optimize", "Shape tone, SEO, hashtags and formatting around the destination.", Wand2],
-  ["04", "Create", "Pair the copy with a visual direction instead of treating images as an afterthought.", Layers3],
-  ["05", "Distribute", "Review, approve and move publish-ready content into your workflow.", Send],
-  ["06", "Learn", "Keep the entire content operation visible so the next iteration gets faster.", Bot],
-] as const;
+  ["01", ScanSearch, "Understand the source", "Extract the signal, context, claims, and useful details before writing anything."],
+  ["02", PenLine, "Find your angle", "Turn one source into a founder take, technical breakdown, beginner explanation, or business insight."],
+  ["03", Layers3, "Build the package", "Generate platform-native copy, hooks, keywords, hashtags, and a visual direction together."],
+  ["04", Send, "Distribute with intent", "Review once, then publish to the channels that matter without rewriting everything by hand."],
+];
 
 export function Features() {
   return (
     <>
-      <section id="workflow" className="border-b border-foreground/10 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr]">
-            <div className="lg:sticky lg:top-28 lg:h-fit">
-              <span className="text-xs font-semibold uppercase tracking-[.22em] text-accent">The operating loop</span>
-              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Content moves.<br />Your team shouldn&apos;t.</h2>
-              <p className="mt-5 max-w-md text-sm leading-6 text-muted-foreground">One source becomes a coordinated stream of channel-specific assets. The interface keeps every stage visible without turning the workflow into a boring stepper.</p>
-              <div className="mt-8 inline-flex items-center gap-2 text-sm font-medium">Explore the system <ArrowDownRight className="h-4 w-4 text-accent" /></div>
+      <section id="features" className="section-dark">
+        <div className="section-shell capability-layout">
+          <Reveal>
+            <div className="section-intro">
+              <span className="section-kicker">WHY IT FEELS DIFFERENT</span>
+              <h2>Your bookmarks are full of ideas.<em>Your calendar shouldn't be.</em></h2>
+              <p>Democrat.ai removes the dead time between discovering something useful and turning it into something useful for your audience.</p>
+              <Link href="/auth/login" className="inline-link">Try the workflow <ArrowRight className="h-4 w-4" /></Link>
             </div>
-
-            <div className="relative">
-              <div className="absolute left-6 top-6 bottom-6 w-px bg-gradient-to-b from-accent via-foreground/10 to-transparent" />
-              <div className="space-y-4">
-                {capabilities.map(([number, title, description, Icon], index) => (
-                  <article key={number} className="group relative grid gap-5 rounded-3xl border border-foreground/10 bg-card/70 p-6 pl-14 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-accent/30 hover:shadow-2xl hover:shadow-accent/5 sm:grid-cols-[auto_1fr_auto] sm:items-center">
-                    <span className="absolute left-4 top-6 grid h-5 w-5 place-items-center rounded-full border border-accent/40 bg-background text-[9px] font-bold text-accent shadow-[0_0_0_5px_hsl(var(--background))]">{number}</span>
-                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-muted transition-transform duration-500 group-hover:rotate-6 group-hover:bg-accent/10">
-                      <Icon className="h-5 w-5 transition-colors group-hover:text-accent" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
-                      <p className="mt-1 text-sm leading-6 text-muted-foreground">{description}</p>
-                    </div>
-                    <div className="hidden text-xs text-muted-foreground sm:block">stage {index + 1}</div>
-                  </article>
-                ))}
-              </div>
-            </div>
+          </Reveal>
+          <div className="capability-grid">
+            {capabilities.map(([number, Icon, title, body], index) => (
+              <Reveal key={number} delay={index * 70}>
+                <article className="capability-card">
+                  <div className="capability-top"><span>{number}</span><Icon className="h-5 w-5" /></div>
+                  <h3>{title}</h3><p>{body}</p>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      <section id="features" className="relative overflow-hidden py-24 sm:py-32">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/15 to-transparent" />
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="max-w-2xl">
-            <span className="text-xs font-semibold uppercase tracking-[.22em] text-accent">Built for distribution</span>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Less formatting.<br />More publishing.</h2>
+      <section id="platforms" className="section-paper">
+        <div className="section-shell">
+          <Reveal>
+            <div className="section-kicker dark">ONE SOURCE. MANY NATIVE OUTPUTS.</div>
+            <div className="platform-heading"><h2>Same idea.<em>Different language.</em></h2><p>LinkedIn needs an argument. X needs compression. Reddit needs conversation. Instagram needs a visual hook. Democrat.ai treats every destination as its own medium.</p></div>
+          </Reveal>
+
+          <div className="platform-strip">
+            {["LinkedIn","X","Reddit","Instagram","Facebook"].map((name, i) => <div key={name} className="platform-chip"><span>{["in","𝕏","r/","◎","f"][i]}</span>{name}<Check className="ml-auto h-4 w-4 opacity-40" /></div>)}
           </div>
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
-            {["Platform-native previews", "Visual-first generation", "Human approval loop"].map((title, i) => (
-              <div key={title} className="group min-h-64 rounded-[28px] border border-foreground/10 bg-card p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">0{i + 1}</span>
-                  <div className="h-2 w-2 rounded-full bg-accent shadow-[0_0_12px_hsl(var(--accent)/.8)]" />
-                </div>
-                <h3 className="mt-16 text-xl font-semibold tracking-tight">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">{[
-                  "Every destination gets its own visual grammar instead of one generic card.",
-                  "Treat the generated visual as part of the message, not a separate deliverable.",
-                  "Edit, approve or reject with the same control surface as generation."
-                ][i]}</p>
-              </div>
-            ))}
+
+          <Reveal delay={100}>
+            <div className="editorial-demo">
+              <div className="demo-source"><div className="demo-label">SOURCE SIGNAL</div><div className="demo-line w-4/5" /><div className="demo-line w-3/5" /><div className="demo-line w-2/3" /><div className="demo-highlight">AI changes the economics of iteration.</div></div>
+              <div className="demo-arrow">→</div>
+              <div className="demo-output"><div className="demo-label">DEMOCRAT OUTPUT</div><div className="demo-post"><div className="demo-post-top"><span className="demo-avatar">D</span><span>Founder POV · LinkedIn</span></div><strong>When iteration gets cheaper, taste becomes the bottleneck.</strong><p>The advantage isn't simply faster generation. It is having more room to test, learn, and ship the version that deserves attention.</p><div className="demo-tags">#AI · #Product · #Founders</div></div></div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section-dark section-control">
+        <div className="section-shell">
+          <div className="feature-banner">
+            <Reveal><div><div className="section-kicker">CONTROL STAYS WITH YOU</div><h2>AI does the heavy lifting.<em>You decide what ships.</em></h2></div></Reveal>
+            <Reveal delay={140}><div className="approval-stack"><div className="approval-card approval-back">Source grounded</div><div className="approval-card approval-mid">Platform ready</div><div className="approval-card approval-front"><span><Check className="h-4 w-4" /> Ready for review</span><button type="button">Approve draft</button></div></div></Reveal>
           </div>
+          <div className="trust-row"><div><Globe2 className="h-4 w-4" /> Source-aware</div><div><Radar className="h-4 w-4" /> Context-aware</div><div><Check className="h-4 w-4" /> Human approved</div></div>
         </div>
       </section>
     </>
