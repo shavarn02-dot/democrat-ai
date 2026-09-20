@@ -19,7 +19,7 @@ export function Features() {
           <Reveal>
             <div className="section-intro">
               <span className="section-kicker">WHY IT FEELS DIFFERENT</span>
-              <h2>Your bookmarks are full of ideas.<em>Your calendar shouldn't be.</em></h2>
+              <h2>Your bookmarks are full of ideas.<em>Your calendar shouldn&apos;t be.</em></h2>
               <p>Democrat.ai removes the dead time between discovering something useful and turning it into something useful for your audience.</p>
               <Link href="/auth/login" className="inline-link">Try the workflow <ArrowRight className="h-4 w-4" /></Link>
             </div>
@@ -52,7 +52,7 @@ export function Features() {
             <div className="editorial-demo">
               <div className="demo-source"><div className="demo-label">SOURCE SIGNAL</div><div className="demo-line w-4/5" /><div className="demo-line w-3/5" /><div className="demo-line w-2/3" /><div className="demo-highlight">AI changes the economics of iteration.</div></div>
               <div className="demo-arrow">→</div>
-              <div className="demo-output"><div className="demo-label">DEMOCRAT OUTPUT</div><div className="demo-post"><div className="demo-post-top"><span className="demo-avatar">D</span><span>Founder POV · LinkedIn</span></div><strong>When iteration gets cheaper, taste becomes the bottleneck.</strong><p>The advantage isn't simply faster generation. It is having more room to test, learn, and ship the version that deserves attention.</p><div className="demo-tags">#AI · #Product · #Founders</div></div></div>
+              <div className="demo-output"><div className="demo-label">DEMOCRAT OUTPUT</div><div className="demo-post"><div className="demo-post-top"><span className="demo-avatar">D</span><span>Founder POV · LinkedIn</span></div><strong>When iteration gets cheaper, taste becomes the bottleneck.</strong><p>The advantage isn&apos;t simply faster generation. It is having more room to test, learn, and ship the version that deserves attention.</p><div className="demo-tags">#AI · #Product · #Founders</div></div></div>
             </div>
           </Reveal>
         </div>
