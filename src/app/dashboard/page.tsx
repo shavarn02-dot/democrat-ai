@@ -125,6 +125,7 @@ export default function DashboardPage() {
             New Content
           </Button>
         </div>
+        </div>
 
         <Tabs defaultValue="create" className="space-y-6 reveal-up [animation-delay:100ms]">
           <TabsList className="rounded-full border border-foreground/10 bg-card/80 p-1 shadow-sm backdrop-blur">
