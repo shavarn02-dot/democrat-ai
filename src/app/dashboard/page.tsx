@@ -111,23 +111,23 @@ export default function DashboardPage() {
   const rejectedDrafts = drafts.filter((d) => d.status === "rejected");
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="mb-8 flex items-center justify-between">
+    <div className="min-h-screen bg-background grid-sheen">
+      <div className="mx-auto max-w-7xl px-5 py-8 lg:px-8 lg:py-10">
+        <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between reveal-up">
           <div>
-            <h1 className="text-3xl font-bold">Dashboard</h1>
-            <p className="text-muted-foreground">
+            <div><div className="mb-2 text-[10px] font-semibold uppercase tracking-[.22em] text-accent">Content operating system</div><h1 className="text-4xl font-semibold tracking-[-0.04em]">Dashboard</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
               Create and manage your repurposed content
             </p>
           </div>
-          <Button onClick={handleNewDraft} className="gap-2">
+          <Button onClick={handleNewDraft} className="group gap-2 rounded-full px-5 shadow-lg shadow-foreground/10 transition-transform duration-300 hover:-translate-y-0.5">
             <Plus className="h-4 w-4" />
             New Content
           </Button>
         </div>
 
-        <Tabs defaultValue="create" className="space-y-6">
-          <TabsList>
+        <Tabs defaultValue="create" className="space-y-6 reveal-up [animation-delay:100ms]">
+          <TabsList className="rounded-full border border-foreground/10 bg-card/80 p-1 shadow-sm backdrop-blur">
             <TabsTrigger value="create" className="gap-2">
               <Sparkles className="h-4 w-4" />
               Create
