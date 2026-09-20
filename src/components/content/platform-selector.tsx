@@ -1,4 +1,8 @@
 "use client";
+import { Platform } from "@/lib/types";import { cn } from "@/lib/utils";
+interface Props{selected:Platform|null;onSelect:(p:Platform)=>void}
+const platforms:[[Platform,string,string,string]][number][]=[["linkedin","LinkedIn","in","Professional post"],["twitter","X / Twitter","𝕏","Post or thread"],["reddit","Reddit","r/","Community post"],["facebook","Facebook","f","Social story"],["blog","Blog","B","Long-form article"]];
+export function PlatformSelector({selected,onSelect}:Props){return <section className="workflow-panel"><div className="panel-head"><span className="panel-index">03</span><h2>Select destination</h2><p>Native structure per channel</p></div><div className="platform-grid">{platforms.map(([value,label,glyph,detail])=><button type="button" aria-pressed={selected===value} key={value} onClick={()=>onSelect(value)} className={cn("platform-option",selected===value&&"selected")}><span className="platform-glyph">{glyph}</span><span><strong className="block">{label}</strong><small className="mt-1 block text-[8px] text-[#8b867d]">{detail}</small></span></button>)}</div></section>}"use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
