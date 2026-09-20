@@ -1,4 +1,6 @@
-"use client";
+import Link from "next/link";
+import { Sparkles } from "lucide-react";
+export function Footer(){return <footer className="footer-shell"><div className="section-shell !py-14"><div className="footer-grid grid grid-cols-[1.2fr_.8fr_.8fr] gap-10"><div><Link href="/" className="flex items-center gap-3"><span className="brand-mark"><Sparkles className="relative z-10 h-4 w-4"/></span><strong>Democrat<span className="text-[#ff5b3f]">.ai</span></strong></Link><p className="mt-5 max-w-sm text-sm leading-6 text-white/45">The AI operating system for turning source material into platform-native content.</p></div><div><small className="font-operational text-[9px] tracking-[.14em] text-white/35">PRODUCT</small><div className="mt-5 flex flex-col gap-3 text-sm text-white/60"><Link href="#system">System</Link><Link href="#platforms">Platforms</Link><Link href="/dashboard">Workspace</Link></div></div><div><small className="font-operational text-[9px] tracking-[.14em] text-white/35">GET STARTED</small><div className="mt-5 flex flex-col gap-3 text-sm text-white/60"><Link href="/auth/login">Log in</Link><Link href="/auth/login">Create account</Link></div></div></div><div className="mt-14 flex flex-wrap justify-between gap-4 border-t border-white/10 pt-6 text-[10px] text-white/30"><span>© {new Date().getFullYear()} Democrat.ai</span><span>BUILT FOR CLEARER IDEAS, EVERYWHERE.</span></div></div></footer>}"use client";
 
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
