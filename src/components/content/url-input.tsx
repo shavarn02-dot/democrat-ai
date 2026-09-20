@@ -63,8 +63,8 @@ export function UrlInput({ onContentExtracted }: UrlInputProps) {
   };
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="overflow-hidden border-foreground/10 bg-card/85 shadow-xl shadow-foreground/5 backdrop-blur-xl transition-all duration-500 hover:border-accent/25">
+      <CardHeader className="border-b border-foreground/8 bg-muted/20">
         <CardTitle className="flex items-center gap-2">
           <Link2 className="h-5 w-5" />
           Paste Your Content URL
@@ -74,7 +74,7 @@ export function UrlInput({ onContentExtracted }: UrlInputProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row">
           <Input
             placeholder="https://youtube.com/watch?v=..."
             value={url}
@@ -84,9 +84,9 @@ export function UrlInput({ onContentExtracted }: UrlInputProps) {
             }}
             onKeyDown={(e) => e.key === "Enter" && handleExtract()}
             disabled={loading}
-            className="flex-1"
+            className="h-12 flex-1 rounded-xl border-foreground/10 bg-background/80"
           />
-          <Button onClick={handleExtract} disabled={loading || !url.trim()}>
+          <Button onClick={handleExtract} disabled={loading || !url.trim()} className="h-12 rounded-xl px-5 shadow-lg shadow-foreground/10 transition-transform duration-300 hover:-translate-y-0.5">
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
