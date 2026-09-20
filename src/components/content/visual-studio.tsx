@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Download, Sparkles, Wand2, Layers, RefreshCw, Check, Copy, Eye, Sliders } from "lucide-react";
+import { RefreshCw, Check, Copy, Eye, Sliders } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface VisualStudioProps {
@@ -24,7 +24,7 @@ const styles = [
   { id: "grain", label: "Photographic Grain", desc: "Film emulation, muted tones, deep editorial mood" },
 ];
 
-export function VisualStudio({ initialTitle = "The Bottleneck is Taste", initialSummary, platform = "linkedin" }: VisualStudioProps) {
+export function VisualStudio({ initialTitle = "The Bottleneck is Taste" }: VisualStudioProps) {
   const [aspect, setAspect] = useState("16:9");
   const [style, setStyle] = useState("editorial");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -190,7 +190,7 @@ export function VisualStudio({ initialTitle = "The Bottleneck is Taste", initial
                 EDITORIAL SIGNAL
               </div>
               <h4 className="text-xl md:text-2xl font-serif text-white leading-tight font-medium px-4">
-                "{initialTitle}"
+                &ldquo;{initialTitle}&rdquo;
               </h4>
               <p className="text-[11px] text-white/70 max-w-sm mx-auto font-sans line-clamp-2">
                 Distribute core ideas across channels without degrading original thesis clarity.

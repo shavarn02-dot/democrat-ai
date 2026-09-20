@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Play, Sparkles, ShieldCheck, Cpu, Layers } from "lucide-react";
+import { ArrowRight, Play, ShieldCheck, Cpu, Layers } from "lucide-react";
 import { WorkflowVisual } from "@/components/landing/workflow-visual";
 
 export function Hero() {

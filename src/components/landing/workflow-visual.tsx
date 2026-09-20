@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, Cpu, Eye, Layers, Play, Pause, RefreshCw, Send, Sparkles, ArrowRight, Radio } from "lucide-react";
+import { Check, Play, Pause, Sparkles, Radio } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const stages = [
@@ -111,7 +111,7 @@ export function WorkflowVisual() {
                 Why cheaper iteration makes editorial taste more valuable
               </h4>
               <p className="text-[11px] text-white/60 line-clamp-2">
-                "When generative models can produce infinite text, the bottleneck shifts entirely to human editorial judgment."
+                &ldquo;When generative models can produce infinite text, the bottleneck shifts entirely to human editorial judgment.&rdquo;
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-white/40">
@@ -196,7 +196,7 @@ export function WorkflowVisual() {
                   When iteration gets cheaper, taste becomes the bottleneck.
                 </h5>
                 <p className="text-[11px] text-white/70 line-clamp-3">
-                  AI doesn't replace the editorial eye—it amplifies it. The advantage isn't producing 10x more drafts, but iterating 10x faster before you publish.
+                  AI doesn&apos;t replace the editorial eye—it amplifies it. The advantage isn&apos;t producing 10x more drafts, but iterating 10x faster before you publish.
                 </p>
                 <div className="flex gap-1.5 text-[9px] text-[#ff5b3f] font-mono">
                   <span>#Founders</span>

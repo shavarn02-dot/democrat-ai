@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Check, Eye, Layers3, PenLine, Radar, ScanSearch, Send, Sparkles, MessageSquare, ThumbsUp, Repeat, Bookmark, Share2 } from "lucide-react";
+import { ArrowRight, Layers3, PenLine, ScanSearch, Send, MessageSquare, ThumbsUp, Repeat, Bookmark } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { VisualStudio } from "@/components/content/visual-studio";
 import { cn } from "@/lib/utils";
@@ -111,7 +111,7 @@ export function Features() {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActivePlatformTab(tab.id as any)}
+                onClick={() => setActivePlatformTab(tab.id as "linkedin" | "twitter" | "reddit" | "blog")}
                 className={cn(
                   "px-4 py-2 rounded-lg text-xs font-medium transition",
                   activePlatformTab === tab.id

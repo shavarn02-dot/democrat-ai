@@ -9,16 +9,11 @@ import { VisualStudio } from "@/components/content/visual-studio";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ContentAngle, Draft, Platform } from "@/lib/types";
 import {
-  Activity,
   Archive,
   ArrowRight,
-  CheckCircle2,
-  Clock3,
   FileText,
   Layers,
-  LayoutDashboard,
   Loader2,
-  Plus,
   RefreshCw,
   Sparkles,
   Workflow,
@@ -26,14 +21,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const stages = [
-  "Source captured",
-  "Context understood",
-  "Angle selected",
-  "Platform selected",
-  "Draft generated",
-  "Ready for review",
-];
+
 
 export default function DashboardPage() {
   const [extracted, setExtracted] = useState<{
@@ -45,7 +33,7 @@ export default function DashboardPage() {
   const [angle, setAngle] = useState<ContentAngle | null>("founder-perspective");
   const [platform, setPlatform] = useState<Platform | null>("linkedin");
   const [generating, setGenerating] = useState(false);
-  const [processingStage, setProcessingStage] = useState(0);
+  
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -91,7 +79,7 @@ export default function DashboardPage() {
   const handleGenerate = async () => {
     if (!extracted || !angle || !platform) return;
     setGenerating(true);
-    setProcessingStage(1);
+    
     setError(null);
 
     try {

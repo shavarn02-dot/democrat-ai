@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy, Edit3, ExternalLink, Image as ImageIcon, Loader2, Save, ThumbsUp, MessageSquare, Repeat, Bookmark, Share2, CheckCircle2, XCircle, Trash2 } from "lucide-react";
-import { Draft, Platform } from "@/lib/types";
+import { Check, Copy, Edit3, Loader2, Save, CheckCircle2, XCircle } from "lucide-react";
+import { Draft } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface Props {
