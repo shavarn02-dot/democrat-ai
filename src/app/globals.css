@@ -59,6 +59,10 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+}
+
 /* Glassmorphism & SaaS Shimmers */
 .glass-panel {
   background: rgba(15, 23, 42, 0.65);
