@@ -1,251 +1,104 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Layers,
-  ShieldCheck,
-  Cpu,
-  ExternalLink,
-  Lock,
-  Sparkles
-} from "lucide-react";
+import { ArrowDownRight, ArrowRight, Check, CircleHelp } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
-import { VisualStudio } from "@/components/content/visual-studio";
-import { cn } from "@/lib/utils";
+import { SocialLinkDemo } from "@/components/landing/social-link-demo";
+import { AgentDemo, AnalyticsDemo } from "@/components/landing/interactive-demos";
+
+const workflow = [
+  { number: "01", title: "Bring your channels together.", body: "An intended managed OAuth connection for Instagram, YouTube, Facebook, X and LinkedIn—without asking you to bring your own developer keys.", state: "Planned" },
+  { number: "02", title: "Make one idea fit each place.", body: "Shape platform-aware captions, reuse a post thoughtfully, and keep a calendar that gives a creator or small team room to think.", state: "Product direction" },
+  { number: "03", title: "Review first. Then publish.", body: "Plan cross-posts and automation with human control. Actual scheduling and publishing are not enabled in this preview.", state: "Planned" },
+];
+
+const questions = [
+  { question: "Can I connect my social accounts now?", answer: "Not in this preview. Managed OAuth connections for Instagram, YouTube, Facebook, X and LinkedIn are planned. Signing in to Democrat.ai is separate from connecting a social publishing account." },
+  { question: "Does this demo fetch a post when I paste a link?", answer: "No. The homepage interaction uses fictional sample data in your browser and does not send your URL to a platform or AI service. A future MCP flow will return only content the relevant platform makes available and permits the service to access." },
+  { question: "What is the expected pricing?", answer: "The business model is planned around a free tier and a 30-day trial with limited credits. Early paid-plan expectations are about ₹149–₹299 per month, with metered credits on every plan and no unlimited tier. These are estimates, not an active offer." },
+  { question: "Will an AI agent publish on my behalf?", answer: "MCP and REST connections are on the product roadmap. The homepage shows the intended interaction; no agent connection or social publishing action is live here." },
+];
 
 export function Features() {
-  const [tokensPerSec, setTokensPerSec] = useState<number>(480);
-  const [governanceStatus, setGovernanceStatus] = useState<"pending" | "approved">("approved");
-
   return (
-    <div className="py-24 space-y-32 bg-[#030712] text-slate-100">
-      {/* SECTION 1: Bento Grid Architecture (Inspired by CRED & Razorpay) */}
-      <section id="bento" className="max-w-7xl mx-auto px-4 sm:px-6 scroll-mt-24">
-        <Reveal>
-          <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-            <span className="text-xs font-mono uppercase tracking-widest text-sky-400 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20">
-              SYSTEM ARCHITECTURE
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-              Engineered for Speed. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-teal-300 to-emerald-400">
-                Guaranteed by Governance.
-              </span>
-            </h2>
-            <p className="text-sm sm:text-base text-slate-400">
-              Built on Groq LPUs, Supabase Row Level Security, and modern Cloudflare edge deployment for sub-second execution.
-            </p>
+    <>
+      <SocialLinkDemo />
+
+      <section className="hp-workflow-section" id="how-it-works" aria-labelledby="hp-workflow-heading">
+        <div className="hp-wrap">
+          <div className="hp-section-heading hp-section-heading--split">
+            <div><p className="hp-section-index">02 / ONE WORKING RHYTHM</p><h2 id="hp-workflow-heading">Less work between<br /><em>good ideas and good posts.</em></h2></div>
+            <p>One connected direction for planning, writing and learning from social—not another pile of tabs. The real channel workflows are part of the roadmap.</p>
           </div>
-        </Reveal>
-
-        {/* 4-Card Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
-          {/* Bento Card 1: Sub-Second Groq Engine (Razorpay style) */}
-          <div className="lg:col-span-7 rounded-2xl glass-panel p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden group hover:border-sky-500/40 transition duration-300">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-sky-500/20 transition duration-500" />
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="p-2.5 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20">
-                  <Cpu className="w-5 h-5" />
-                </span>
-                <span className="text-[11px] font-mono text-emerald-400 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                  Llama 3.3 70B Versatile
-                </span>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">
-                Sub-Second Reasoning Engine
-              </h3>
-              <p className="text-sm text-slate-400 leading-relaxed mb-6">
-                Groq LPUs process long-form source articles in hundreds of milliseconds. No sluggish API delays or timeouts—instant deconstruction of arguments and evidence.
-              </p>
-            </div>
-
-            {/* Interactive Speed Dial (Razorpay style) */}
-            <div className="p-4 rounded-xl bg-black/40 border border-white/10 space-y-3">
-              <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-slate-400">CURRENT INFERENCE SPEED:</span>
-                <span className="text-sky-400 font-bold">{tokensPerSec} tokens/sec</span>
-              </div>
-              <input
-                type="range"
-                min="200"
-                max="650"
-                value={tokensPerSec}
-                onChange={(e) => setTokensPerSec(Number(e.target.value))}
-                className="w-full accent-sky-400 cursor-pointer"
-              />
-              <div className="flex justify-between text-[10px] font-mono text-slate-500">
-                <span>Standard LLM (40 t/s)</span>
-                <span>Democrat.ai Groq Cluster (480+ t/s)</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Bento Card 2: Multi-Platform Grammar (Notion style) */}
-          <div className="lg:col-span-5 rounded-2xl glass-panel p-6 sm:p-8 flex flex-col justify-between group hover:border-indigo-500/40 transition duration-300">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                  <Layers className="w-5 h-5" />
-                </span>
-                <span className="text-[11px] font-mono text-indigo-400 px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20">
-                  5 Channels Synced
-                </span>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">
-                Platform-Native Grammar
-              </h3>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                LinkedIn needs conversational white space. 𝕏 needs concise hooks. Reddit demands humble authenticity. Democrat.ai never copy-pastes generic prose.
-              </p>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-white/10 flex flex-wrap gap-2 text-xs font-mono">
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-slate-300">
-                LinkedIn Posts
-              </span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-slate-300">
-                𝕏 Threads
-              </span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-slate-300">
-                Reddit r/SaaS
-              </span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-slate-300">
-                Slack Briefs
-              </span>
-            </div>
-          </div>
-
-          {/* Bento Card 3: Visual Generation Canvas (CRED style) */}
-          <div className="lg:col-span-6 rounded-2xl glass-panel p-6 sm:p-8 flex flex-col justify-between group hover:border-emerald-500/40 transition duration-300">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  <Sparkles className="w-5 h-5" />
-                </span>
-                <span className="text-[11px] font-mono text-emerald-400 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                  Visual Direction
-                </span>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">
-                Integrated Visual Studio
-              </h3>
-              <p className="text-sm text-slate-400 leading-relaxed mb-6">
-                Social feeds prioritize imagery. Generate companion graphics, quote cards, and branded banner assets with matching editorial aesthetic.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-black/40 p-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-mono text-slate-300">Preset: 16:9 Editorial Dark</span>
-              </div>
-              <span className="text-xs font-mono text-emerald-400">Ready</span>
-            </div>
-          </div>
-
-          {/* Bento Card 4: Human-in-the-Loop Gate (Slack style) */}
-          <div id="governance" className="lg:col-span-6 rounded-2xl glass-panel p-6 sm:p-8 flex flex-col justify-between group hover:border-sky-500/40 transition duration-300 scroll-mt-24">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                  <ShieldCheck className="w-5 h-5" />
-                </span>
-                <span className="text-[11px] font-mono text-amber-400 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20">
-                  Supabase RLS Enforced
-                </span>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">
-                Human-in-the-Loop Governance
-              </h3>
-              <p className="text-sm text-slate-400 leading-relaxed mb-6">
-                Zero rogue posts. Every output enters your private Supabase dashboard in Draft status. You review, edit, approve, or reject before anything touches the outside world.
-              </p>
-            </div>
-
-            {/* Interactive Approval Simulator */}
-            <div className="rounded-xl border border-white/10 bg-black/40 p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Lock className="w-4 h-4 text-emerald-400" />
-                <span className="text-xs font-mono text-slate-200">
-                  Draft #042: {governanceStatus === "approved" ? "Approved & Ready" : "Pending Human Review"}
-                </span>
-              </div>
-              <button
-                onClick={() => setGovernanceStatus(governanceStatus === "approved" ? "pending" : "approved")}
-                className={cn(
-                  "px-3 py-1.5 rounded-lg text-xs font-semibold transition border",
-                  governanceStatus === "approved"
-                    ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/40"
-                    : "bg-amber-500/20 text-amber-400 border-amber-500/40"
-                )}
-              >
-                {governanceStatus === "approved" ? "Approved ✓" : "Review"}
-              </button>
-            </div>
+          <div className="hp-workflow-list">
+            {workflow.map((item) => (
+              <Reveal key={item.number} className="hp-workflow-reveal">
+                <article className="hp-workflow-row">
+                  <span className="hp-workflow-row__number">{item.number}</span>
+                  <div className="hp-workflow-row__copy"><h3>{item.title}</h3><p>{item.body}</p></div>
+                  <span className="hp-plan-state">{item.state}</span>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION 2: Embedded Visual Studio Canvas */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <Reveal>
-          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-            <span className="text-xs font-mono uppercase tracking-widest text-emerald-400 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-              CREATIVE ENGINE
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-              Companion Visual Generation
-            </h2>
-            <p className="text-sm text-slate-400">
-              Tailor aesthetic lighting, typography weight, and aspect ratios directly inside your workspace.
-            </p>
+      <section className="hp-feature-section" id="features" aria-labelledby="hp-feature-heading">
+        <div className="hp-wrap hp-feature-grid">
+          <div className="hp-feature-copy">
+            <p className="hp-section-index">03 / THE WORK AROUND THE POST</p>
+            <h2 id="hp-feature-heading">Stay close to the signal.<br /><em>Let the admin get smaller.</em></h2>
+            <p>Plan for the channels you use. Keep an edit for every platform. See the shape of the conversation before deciding what to say next.</p>
+            <Link href="#pricing" className="hp-text-link">How the credit model works <ArrowDownRight size={15} aria-hidden="true" /></Link>
           </div>
-        </Reveal>
+          <AnalyticsDemo />
+        </div>
 
-        <Reveal delay={100}>
-          <VisualStudio initialTitle="The Bottleneck is Taste" />
-        </Reveal>
+        <div className="hp-wrap hp-capability-strip">
+          <article><span>01</span><h3>Content calendar</h3><p>Find a cadence without losing the thread.</p><small className="hp-capability-status">Planned feature</small></article>
+          <article><span>02</span><h3>AI-assisted captions</h3><p>Keep each version shaped for its destination.</p><small className="hp-capability-status">Planned feature</small></article>
+          <article><span>03</span><h3>Competitor context</h3><p>Spot patterns without confusing them for your voice.</p><small className="hp-capability-status">Planned feature</small></article>
+          <article><span>04</span><h3>Credit-aware automation</h3><p>Set useful limits. “Unlimited” isn’t the plan.</p><small className="hp-capability-status">Planned feature</small></article>
+        </div>
       </section>
 
-      {/* SECTION 3: Final Call to Action (CRED style metallic radiant box) */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-        <Reveal>
-          <div className="rounded-3xl border border-white/15 bg-gradient-to-b from-[#0e1628] to-[#040711] p-10 sm:p-16 shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="relative z-10 space-y-6 max-w-2xl mx-auto">
-              <span className="inline-block px-3.5 py-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 text-xs font-mono text-sky-400">
-                READY TO SHIP REASONED CONTENT?
-              </span>
-              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                Turn your best insights into your best distribution.
-              </h2>
-              <p className="text-sm sm:text-base text-slate-400">
-                Join creators, engineering leads, and founders who use Democrat.ai to amplify their work without compromising craft.
-              </p>
-              <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-                <Link
-                  href="/auth/login"
-                  className="cred-glow-button flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-sm shadow-xl active:scale-95"
-                >
-                  <span>Get Started for Free</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/dashboard"
-                  className="flex items-center gap-2 px-6 py-4 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-sm font-medium text-slate-200 transition"
-                >
-                  <span>Open Workspace</span>
-                  <ExternalLink className="w-4 h-4 text-slate-400" />
-                </Link>
-              </div>
-            </div>
+      <section className="hp-agent-section" id="integrations" aria-labelledby="hp-agent-heading">
+        <div className="hp-wrap hp-agent-grid">
+          <div className="hp-agent-copy">
+            <p className="hp-section-index hp-section-index--light">04 / BUILT FOR YOUR AI TOOLCHAIN</p>
+            <h2 id="hp-agent-heading">Your agent has a link.<br /><em>Give it the context.</em></h2>
+            <p>Imagine pasting a Reel, a video or a post into ChatGPT, Claude, Codex or another agent—and asking a better question because it can see the post’s available context.</p>
+            <p className="hp-agent-status"><span /> Planned MCP + REST API · Not live yet</p>
           </div>
-        </Reveal>
+          <AgentDemo />
+        </div>
+        <div className="hp-wrap hp-integrations-row"><span>DESIGNED AROUND</span><b>ChatGPT</b><b>Claude</b><b>Codex</b><b>REST</b><b>MCP</b><span>Planned integrations</span></div>
       </section>
-    </div>
+
+      <section className="hp-platform-section" aria-label="Planned social media connections">
+        <div className="hp-wrap hp-platform-row"><div><p className="hp-section-index">THE CHANNEL MIX</p><h2>One desk, not five tabs.</h2></div><div className="hp-platforms"><span><i>IG</i>Instagram</span><span><i>YT</i>YouTube</span><span><i>f</i>Facebook</span><span><i>𝕏</i>X</span><span><i>in</i>LinkedIn</span></div><p className="hp-platform-note">Planned OAuth connections. No social accounts are connected in this preview.</p></div>
+      </section>
+
+      <section className="hp-pricing-section" id="pricing" aria-labelledby="hp-pricing-heading">
+        <div className="hp-wrap">
+          <div className="hp-section-heading hp-section-heading--split">
+            <div><p className="hp-section-index">05 / INDIA-FIRST BY DESIGN</p><h2 id="hp-pricing-heading">Small-team pricing.<br /><em>Clear credit limits.</em></h2></div>
+            <p>The model is designed for creators and small teams—not enterprise procurement. Every tier would have a clear usage budget; there is no unlimited plan.</p>
+          </div>
+          <div className="hp-price-layout">
+            <div className="hp-price-intro"><span className="hp-price-stamp">PLANNING RANGE · NOT FINAL PRICING</span><p>Expected paid plans around</p><strong>₹149—₹299<span> / month</span></strong><p>Freemium + a 30-day trial with limited credits are part of the plan. Checkout and trial access are not live on this page.</p><Link href="#social-link-intelligence" className="hp-text-link">Explore the product concept <ArrowRight size={15} aria-hidden="true" /></Link></div>
+            <div className="hp-credit-card"><div className="hp-credit-card__ornament" aria-hidden="true"><span /><span /><span /></div><span className="hp-overline">A SIMPLE PROMISE</span><h3>Know what you spend.<br />Keep your voice.</h3><ul><li><Check size={15} aria-hidden="true" /> Credits meter every plan</li><li><Check size={15} aria-hidden="true" /> No “unlimited” usage tier</li><li><Check size={15} aria-hidden="true" /> Prices shown in Indian rupees</li></ul><span className="hp-credit-card__note">Plan details and credit quotas remain to be finalized.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="hp-faq-section" aria-labelledby="hp-faq-heading">
+        <div className="hp-wrap hp-faq-grid">
+          <div><p className="hp-section-index">GOOD QUESTIONS</p><h2 id="hp-faq-heading">A few things<br /><em>worth knowing.</em></h2><p className="hp-faq-side"><CircleHelp size={16} aria-hidden="true" /> What you see here is a product preview, not an integration status dashboard.</p></div>
+          <div className="hp-faq-list">{questions.map(({ question, answer }) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
+        </div>
+      </section>
+
+      <section className="hp-final-cta"><div className="hp-wrap hp-final-cta__inner"><p className="hp-section-index hp-section-index--light">THE NEXT POST CAN START WITH BETTER CONTEXT</p><h2>Understand what resonates.<br /><em>Decide what happens next.</em></h2><Link href="#social-link-intelligence" className="hp-button hp-button--paper">Explore the sample <ArrowDownRight size={15} aria-hidden="true" /></Link><p>All product surfaces on this page are illustrative except the existing Democrat.ai sign-in.</p></div></section>
+    </>
   );
 }
